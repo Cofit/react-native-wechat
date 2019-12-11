@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
+import androidx.annotation.Nullable;
 
 import com.facebook.common.executors.UiThreadImmediateExecutorService;
 import com.facebook.common.internal.Files;
@@ -229,7 +230,7 @@ public class WeChatModule extends ReactContextBaseJavaModule implements IWXAPIEv
         if (uri != null) {
             this._getImage(uri, new ResizeOptions(100, 100), new ImageCallback() {
                 @Override
-                public void invoke(Bitmap bitmap) {
+                public void invoke(@Nullable Bitmap bitmap) {
                     WeChatModule.this._share(scene, data, bitmap, callback);
                 }
             });
@@ -307,7 +308,7 @@ public class WeChatModule extends ReactContextBaseJavaModule implements IWXAPIEv
         } else if (type.equals("imageUrl") || type.equals("imageResource")) {
             __jsonToImageUrlMedia(data, new MediaObjectCallback() {
                 @Override
-                public void invoke(WXMediaMessage.IMediaObject mediaObject) {
+                public void invoke(@Nullable WXMediaMessage.IMediaObject mediaObject) {
                     if (mediaObject == null) {
                         callback.invoke(INVALID_ARGUMENT);
                     } else {
@@ -319,7 +320,7 @@ public class WeChatModule extends ReactContextBaseJavaModule implements IWXAPIEv
         } else if (type.equals("imageFile")) {
             __jsonToImageFileMedia(data, new MediaObjectCallback() {
                 @Override
-                public void invoke(WXMediaMessage.IMediaObject mediaObject) {
+                public void invoke(@Nullable WXMediaMessage.IMediaObject mediaObject) {
                     if (mediaObject == null) {
                         callback.invoke(INVALID_ARGUMENT);
                     } else {
@@ -417,7 +418,7 @@ public class WeChatModule extends ReactContextBaseJavaModule implements IWXAPIEv
 
         this._getImage(imageUri, null, new ImageCallback() {
             @Override
-            public void invoke(Bitmap bitmap) {
+            public void invoke(@Nullable Bitmap bitmap) {
                 callback.invoke(bitmap == null ? null : new WXImageObject(bitmap));
             }
         });
@@ -511,11 +512,11 @@ public class WeChatModule extends ReactContextBaseJavaModule implements IWXAPIEv
     }
 
     private interface ImageCallback {
-        void invoke(Bitmap bitmap);
+        void invoke(@Nullable Bitmap bitmap);
     }
 
     private interface MediaObjectCallback {
-        void invoke(WXMediaMessage.IMediaObject mediaObject);
+        void invoke(@Nullable WXMediaMessage.IMediaObject mediaObject);
     }
 
 }
